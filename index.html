@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    
+    <link rel="stylesheet" href="/assets/style.css"/>
+
+    <title>Weather Dashboard</title>
+</head>
+<body>
+
+    <div id="header" class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4 text-center font-weight-bold text-white">Weather Dashboard</h1>
+        </div>
+    </div>
+
+    <form class="container">
+        <div class="row">
+            <div class="col">
+                <div class="form-group col-lg-3  font-weight-bold">
+                <label for="search-city">Search for a City:</label>
+                <input type="city" class="form-control" id="search-city" placeholder="">
+                <button id="search-button" class="btn btn-primary m-2" type="submit"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </div>  
+
+
+        <div class="search-error"></div>
+
+        <ul id="city-results" class="list-group mt-4"></ul>
+    
+        <a id="clear-storage" href="#"></a>
+    </form>
+
+    <div id="content-right" class="col-md-9 pt-4">
+
+        <div id="current-weather" class="border-rounded-pill"></div>
+
+        <div id="five-forecast" class="mt-5"></div>
+    </div>
+
+    
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/1e4b375b3d.js" crossorigin="anonymous"></script>
+    <script src="/assets/script.js"></script>
+</body>
+</html>
