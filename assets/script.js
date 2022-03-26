@@ -1,8 +1,23 @@
-let owmAPI = "819399eab460a02c313c92f04377c94c";
-let currentCity = "";
-let prevCity = "";
+var owmAPI = "819399eab460a02c313c92f04377c94c";
+var currentCity = "";
+var prevCity = "";
+
+var saveCity = (newCity) => {
+    let citySearched = false;
+    for (let i = 0; i < localStorage.length; i++) {
+        if (citySearched === false) {
+            localStorage.setItem("cities" + localStorage.length, newCity);
+        }
+    }
+}
 
 $('#search-button').on("click", (event) => {
+    event.preventDefault();
+    currentCity = $('#search-city').val();
+    getCurrentConditions(event);
+    });
+
+$('#city-results').on("click", (event) => {
     event.preventDefault();
     currentCity = $('#search-city').val();
     getCurrentConditions(event);
@@ -49,6 +64,22 @@ var getCurrentConditions = (event) => {
         let longitude = response.coord.longitude;
         let latitude = response.coord.lat;
 
+        fetch(uvWeatherURL).then(handleErrors).then((response) => {
+            return response.json();
+        }) .then ((response) => {
+            let uvIndex = response.value;
+            $('#uvIndex').html(`UV Index <span id="uvCond">${uvIndex}</span>`);
+            
+            if (uvIndex >= 0 && uvIndex < 3) {
+                $("#uvCond").attr("class", "uvd-favorable");
+            } else if (uvIndex >= 3 && uvIndex < 5) {
+                $("#uvCond").attr("class", "uvd-moderate");
+            } else if (uvIndex >=5 && uvIndex < 8) {
+                $("#uvCond").attr("class", "uvd-severe");
+            } else if (uvIndex >= 8 && uvIndex < 11) {
+                $("#uvCond").attr("class", "uvd-extreme");
+            }
+        })
     })
 }
 
