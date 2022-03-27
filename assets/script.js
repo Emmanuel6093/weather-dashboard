@@ -29,6 +29,37 @@ var handleErrors = (response) => {
     } return response;
 }
 
+var loadCities = () => {
+    $("#city-results").empty();
+    if (localStorage.length === 0) {
+        if (prevCity) {
+            $("#search-city").attr("value", prevCity);
+        } else {
+            $("#search-city").attr("value", "");
+        }
+    }
+    else {
+        let preCityResults = "cities" + (localStorage.length - 1); 
+        prevCity = localStorage.getItem(preCityResults); 
+        $("#search-city").attr("value", prevCity); 
+
+
+        for (let i = 0; i <localStorage.length; i++) {
+            let city = localStorage.getItem("cities" + i);
+            let cityEl; 
+            if (currentCity === "") {
+                currentCity = prevCity; 
+            } 
+            if (city === currentCity) {
+                cityEl = `<button type="button" class="active list-group-item-action">${city}</button>`;
+            } else {
+                cityEl = `<button type="button" class="list-group-item-action">${city}</button>`;
+            }
+            $("#city-results").prepend(cityEl); 
+        }
+    }
+}
+
 var getCurrentConditions = (event) => {
     let city = $('#search-city').val();
     currentCity = $('#search-city').val();
@@ -85,3 +116,6 @@ var getCurrentConditions = (event) => {
 
 getCurrentConditions();
 
+var getFiveForecast = (event) => {
+    let city = $("#search-city").val();
+}
