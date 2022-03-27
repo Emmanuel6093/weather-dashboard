@@ -6,27 +6,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <!-- bootstrap styles -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@700&display=swap" rel="stylesheet">
+
+
+    <!-- general styles -->
     <link rel="stylesheet" href="/assets/style.css"/>
 
     <title>Weather Dashboard</title>
 </head>
 <body>
-
+<!-- jumbotron for weather dashboard -->
     <div id="header" class="jumbotron jumbotron-fluid">
         <div class="container">
-            <h1 class="display-4 text-center font-weight-bold text-white">Weather Dashboard</h1>
+            <h1 id="weather-title" class="display-4 text-center font-weight-bold text-white">Weather Dashboard</h1>
         </div>
     </div>
 
     <form class="container">
         <div class="row">
-            <div class="col">
-                <div class="form-group col-lg-5 font-weight-bold">
+
+            <!-- search bar  -->
+            <div class="col text-center">
+                <div class="form-group col-lg-5 font-weight-bold ">
                 <label for="search-city">Search for a City:</label>
                 <input type="text" class="form-control" id="search-city" placeholder="">
+
+                <!-- search button from font awesome -->
                 <button id="search-button" class="btn btn-primary m-2" type="submit"><i class="fas fa-search"></i></button>
                 </div>
             </div>
@@ -35,16 +46,16 @@
 
         <div class="search-error"></div>
 
+        <!-- result of cities -->
         <ul id="city-results" class="list-group mt-4"></ul>
     
-        <a id="clear-storage" href="#"></a>
     </form>
 
     <div id="content-right" class="col-md-9 pt-4">
 
-        <div id="present-weather" class="border-rounded-pill"></div>
+        <div id="present-weather" class="rounded"></div>
 
-        <div id="five-forecast" class="mt-5"></div>
+        <div id="five-forecast" class="mt-5 text-center rounded"></div>
     </div>
 
     

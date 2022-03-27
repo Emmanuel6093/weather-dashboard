@@ -62,9 +62,9 @@ var loadCities = () => {
                 presentCity = prevCity; 
             } 
             if (city === presentCity) {
-                cityEl = `<button type="button" class="active list-group-item-action">${city}</button>`;
+                cityEl = `<button type="button" class="active list-group-item-action">${city}</button></li>`;
             } else {
-                cityEl = `<button type="button" class="list-group-item-action">${city}</button>`;
+                cityEl = `<button type="button" class="list-group-item-action">${city}</button></li>`;
             }
             $("#city-results").prepend(cityEl); 
         }
@@ -88,7 +88,7 @@ var getPresentConditions = (event) => {
         saveCity(city); 
         $('#search-error').text(""); 
         // icon set for present weather from owm  
-        let presentWeatherIcon = "http://openweathermap.org/img/w" + response.weather[0].icon + ".png";
+        let presentWeatherIcon = "https://openweathermap.org/img/w" + response.weather[0].icon + ".png";
         // using momentjs for offset utc timezone 
         let presentTimeUTC = response.dt;
         let presentTimeZoneOffset = response.timezone; 
@@ -110,13 +110,17 @@ var getPresentConditions = (event) => {
         // search results
         $('#present-weather').html(presentWeatherHTML);
         
-        // cors error - api solution
-        uvWeatherURL = "https://cors-anywhere.herokuapp.com" + uvWeatherURL;
-        let uvWeatherURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" + latitude + "&lon=" + longitude + "&APPID=" + owmAPI;
+   
+          // long/lat for uvIndex from owm
+          let longitude = response.coord.lon;
+          let latitude = response.coord.lat;
+        
+          let uvWeatherURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" + latitude + "&lon=" + longitude + "&APPID=" + owmAPI;
+        
+             // cors error - api solution
+          uvWeatherURL = "https://cors-anywhere.herokuapp.com" + uvWeatherURL;
 
-        // long/lat for uvIndex from owm
-        let longitude = response.coord.longitude;
-        let latitude = response.coord.lat;
+      
 
 
         // fetch uvIndex info

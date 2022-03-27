@@ -1,4 +1,41 @@
+/* google font applied */
+* {
+    font-family: 'Noto Serif', serif;
+}
+/* header for weather dashboard */
 .jumbotron {
     background-color: cadetblue;
     padding: 5px;
+}
+
+/* uv index indicators */
+.uvd-favorable {
+    background-color: green;
+
+}
+
+.uvd-moderate {
+    background-color: orange;
+}
+
+.uvd-severe {
+    background-color: red;
+}
+
+.uvd-extreme {
+    background-color: rgb(90, 55, 172);
+}
+
+#search-city {
+    text-align: center;
+}
+
+#present-weather {
+    background-color: cadetblue;
+    text-align: center;
+}
+
+#five-forecast {
+    background-color: cadetblue;
+    
 }
