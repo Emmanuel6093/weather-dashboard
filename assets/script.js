@@ -1,30 +1,34 @@
 var owmAPI = "819399eab460a02c313c92f04377c94c";
-var currentCity = "";
+var presentCity = "";
 var prevCity = "";
 
-var saveCity = (newCity) => {
-    let citySearched = false;
-    for (let i = 0; i < localStorage.length; i++) {
-        if (citySearched === false) {
-            localStorage.setItem("cities" + localStorage.length, newCity);
+var saveCity = (citySearched) => {
+    let cityOld = false; 
+    for(let i = 0; i < localStorage.length; i++) {
+        if (localStorage["cities" +i] === citySearched) {
+            cityOld = true;
         }
     }
-}
+        if (citySearched === false) {
+            localStorage.setItem("cities" + localStorage.length, citySearched);
+        }
+    }
+
 
 $('#search-button').on("click", (event) => {
     event.preventDefault();
-    currentCity = $('#search-city').val();
-    getCurrentConditions(event);
+    presentCity = $('#search-city').val();
+    getPresentConditions(event);
     });
 
 $('#city-results').on("click", (event) => {
     event.preventDefault();
-    currentCity = $('#search-city').val();
-    getCurrentConditions(event);
+    presentCity = $('#search-city').val();
+    getPresentConditions(event);
     });
 
-var handleErrors = (response) => {
-    if (response.ok) {
+var fixErrors = (response) => {
+    if (!response.ok) {
         throw Error(response.statusText);
     } return response;
 }
@@ -47,10 +51,10 @@ var loadCities = () => {
         for (let i = 0; i <localStorage.length; i++) {
             let city = localStorage.getItem("cities" + i);
             let cityEl; 
-            if (currentCity === "") {
-                currentCity = prevCity; 
+            if (presentCity === "") {
+                presentCity = prevCity; 
             } 
-            if (city === currentCity) {
+            if (city === presentCity) {
                 cityEl = `<button type="button" class="active list-group-item-action">${city}</button>`;
             } else {
                 cityEl = `<button type="button" class="list-group-item-action">${city}</button>`;
@@ -62,23 +66,23 @@ var loadCities = () => {
 
 loadCities(); 
 
-var getCurrentConditions = (event) => {
+var getPresentConditions = (event) => {
     let city = $('#search-city').val();
-    currentCity = $('#search-city').val();
+    presentCity = $('#search-city').val();
 
     let weatherURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial" + "&APPID=" + owmAPI;
-    fetch(weatherURL).then(handleErrors).then((response) => {
+    fetch(weatherURL).then(fixErrors).then((response) => {
         return response.json();
     }).then((response) => {
         saveCity(city); 
         $('#search-error').text(""); 
 
-        let currentWeatherIcon = "http://openweathermap.org/img/w" + response.weather[0].icon + ".png";
+        let presentWeatherIcon = "http://openweathermap.org/img/w" + response.weather[0].icon + ".png";
         let presentTimeUTC = response.dt;
         let presentTimeZoneOffset = response.timezone; 
         let presentTimeZoneOffsetHours = presentTimeZoneOffset / 60 / 60;
         let presentMoment = moment.unix(presentTimeUTC).utc().utcOffset(presentTimeZoneOffsetHours);
-        let currentWeatherHTML = `<h3>${response.name} ${presentMoment.format("(MM/DD/YY)")}<img src="${currentWeatherIcon}"</h3>
+        let presentWeatherHTML = `<h3>${response.name} ${presentMoment.format("(MM/DD/YY)")}<img src="${presentWeatherIcon}"</h3>
         
         <ul class = "list-unstyled">
             <li>Temperature ${response.main.temp}&#8457;</li>
@@ -90,14 +94,14 @@ var getCurrentConditions = (event) => {
         loadCities();
         getFiveForecast(event); 
 
-        $('#current-weather').html(currentWeatherHTML);
+        $('#present-weather').html(presentWeatherHTML);
         
         uvWeatherURL = "https://cors-anywhere.herokuapp.com" + uvWeatherURL;
         let uvWeatherURL = "api.openweathermap.org/data/2.5/uvi?lat=" + latitude + "&lon=" + longitude + "&APPID=" + owmAPI;
         let longitude = response.coord.longitude;
         let latitude = response.coord.lat;
 
-        fetch(uvWeatherURL).then(handleErrors).then((response) => {
+        fetch(uvWeatherURL).then(fixErrors).then((response) => {
             return response.json();
         }) .then ((response) => {
             let uvIndex = response.value;
@@ -116,19 +120,19 @@ var getCurrentConditions = (event) => {
     })
 }
 
-getCurrentConditions();
+getPresentConditions();
 
 var getFiveForecast = (event) => {
     let city = $("#search-city").val();
 
     let fiveURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&units=imperial" + "&APPID=" + owmAPI;
 
-    fetch(fiveURL).then(handleErrors).then((response) => {
+    fetch(fiveURL).then(fixErrors).then((response) => {
         return response.json(); 
     })
     .then((response) => {
-        let fiveDayForecast = `<h2>Five Day Forecast</h2>
-        <div id="fiveUl" class="flex-wrap d-inline-flex"></div>`;
+        let fiveForecast = `<h2>Five Day Forecast</h2>
+        <div id="fiveUl" class="flex-wrap d-inline-flex">`;
 
         for (let i = 0; i < response.list.length; i++) {
             let dailyDay = response.list[i];
@@ -136,6 +140,27 @@ var getFiveForecast = (event) => {
             let nowDayTimeUTC = dailyDay.dt 
             let nowMoment = moment.unix(dayTimeUTC).utcOffset(timeZoneOffsetHours); 
             let fiveIconURL = "https://openweathermap.org/img/w/" + dailyDay.weather[0].icon + ".png"; 
+
+
+            if (nowMoment.format("HH:mm:ss") === "11:00:00" || 
+                nowMoment.format("HH:mm:ss") === "12:00:00" || 
+                nowMoment.format("HH:ss:mm") === "13:00:00") {
+                    fiveForecast += `<div class="card forecast-card m-2 p0">
+                    <ul class="list-unstyled p-3">
+                        <li>${nowMoment.format("MM/DD/YY")}</li>
+                        <li class="forecast-icon"><img src="${fiveIconURL}"</li>
+                        <li>Temp: ${dailyDay.main.temp}&#8457;</li>
+                        <li>Humidity: ${dailyDay.main.humidity}%</li>
+                    </ul>
+
+                    </div>`;
+                }
+
+
+            
         }
+       fiveForecast += `</div>`
+       $("#five-forecast").html(fiveDayForecast)
     })
+
 }
