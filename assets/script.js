@@ -60,6 +60,8 @@ var loadCities = () => {
     }
 }
 
+loadCities(); 
+
 var getCurrentConditions = (event) => {
     let city = $('#search-city').val();
     currentCity = $('#search-city').val();
@@ -118,4 +120,22 @@ getCurrentConditions();
 
 var getFiveForecast = (event) => {
     let city = $("#search-city").val();
+
+    let fiveURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&units=imperial" + "&APPID=" + owmAPI;
+
+    fetch(fiveURL).then(handleErrors).then((response) => {
+        return response.json(); 
+    })
+    .then((response) => {
+        let fiveDayForecast = `<h2>Five Day Forecast</h2>
+        <div id="fiveUl" class="flex-wrap d-inline-flex"></div>`;
+
+        for (let i = 0; i < response.list.length; i++) {
+            let dailyDay = response.list[i];
+            let timeZoneOffset = response.city.timezone; 
+            let nowDayTimeUTC = dailyDay.dt 
+            let nowMoment = moment.unix(dayTimeUTC).utcOffset(timeZoneOffsetHours); 
+            let fiveIconURL = "https://openweathermap.org/img/w/" + dailyDay.weather[0].icon + ".png"; 
+        }
+    })
 }
