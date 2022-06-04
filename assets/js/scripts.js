@@ -1,5 +1,4 @@
-// api key
-let owmAPI = "819399eab460a02c313c92f04377c94c";
+var key = '819399eab460a02c313c92f04377c94c';
 var city = ""
 
 //Grabs the current time and date
@@ -174,7 +173,7 @@ function getFiveDayForecast() {
 	});
 };
 
-//Allows for the example data to load for Denver
+//Allows for the example data to load for city
 function initLoad() {
 
 	var cityHistStore = JSON.parse(localStorage.getItem('city'));

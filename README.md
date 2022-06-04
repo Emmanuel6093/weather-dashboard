@@ -1,10 +1,14 @@
-# Weather Dashboard
+# Weather-Dashboard
 
-## Instructions
+## Description
 
-    This is a weather app designed to get the current weather & 5-day forecast of the location searched. 
+This is a weather dashboard that displays the current weather conditions for a city. It uses the OpenWeatherMap API to get the weather data. When the user searches for a city the temperature, humidity, wind speed, weather conditions, and UV index are displayed.
 
-    Simply type in the city you would like to search & hit the search button on the bottom. The results will pop up in the 2 boxes of content on the bottom. The first will be information about the current weather & the one below is the 5-day forecast. 
+## Built With: 
 
-  ![image](/assets/images/weather-dashboard.png)
-  [emmanuel6093.github.io/weather-dashboard/](emmanuel6093.github.io/weather-dashboard/)  
+    - HTML
+    - CSS
+    - JavaScript
+
+![image](/assets/images/weatherdashboard.png)
+
